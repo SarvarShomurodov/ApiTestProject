@@ -10,12 +10,40 @@ use Validator;
 
 class LoginRegisterController extends Controller
 {
-     /**
-     * Register a new user.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+ /**
+ * Register a new user.
+ *
+ * @OA\Post(
+ *     path="/api/register",
+ *     summary="Create a new user",
+ *     tags={"Authorization"},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"name", "email", "password","password_confirmation"},
+ *             @OA\Property(property="name", type="string",example="Sarvar"),
+ *             @OA\Property(property="email", type="string", format="email", example="sarvar9818@gmail.com"),
+ *             @OA\Property(property="password", type="string", format="password",example="sarvarbek"),
+ *             @OA\Property(property="password_confirmation", type="string", format="password",example="sarvarbek"),
+ *         ),
+ *     ),
+ *     @OA\Response(
+ *         response=201,
+ *         description="User created successfully",
+ *         @OA\JsonContent(ref="#/components/schemas/User"),
+ *     ),
+ *     @OA\Response(
+ *         response=403,
+ *         description="Validation Error",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="status", type="string", example="failed"),
+ *             @OA\Property(property="message", type="string", example="Validation Error!"),
+ *             @OA\Property(property="data", type="object"),
+ *         ),
+ *     ),
+ * )
+ */
     public function register(Request $request)
     {
         $validate = Validator::make($request->all(), [
@@ -53,8 +81,56 @@ class LoginRegisterController extends Controller
     /**
      * Authenticate the user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *     path="/api/login",
+     *     summary="Authenticate a user",
+     *     tags={"Authorization"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="email", type="string",example="sarvar9818@gmail.com"),
+     *             @OA\Property(property="password", type="string",example="sarvarbek")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="User logged in successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string"),
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="token", type="string"),
+     *                 @OA\Property(
+     *                     property="user",
+     *                     ref="#/components/schemas/User"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Invalid credentials",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string"),
+     *             @OA\Property(property="message", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Validation Error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string"),
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="data", type="object")
+     *         )
+     *     )
+     * )
      */
     public function login(Request $request)
     {
@@ -97,8 +173,21 @@ class LoginRegisterController extends Controller
     /**
      * Log out the user from application.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *     path="/api/logout",
+     *     summary="Log out a user",
+     *     tags={"Authorization"},
+     *     security={{ "bearerAuth":{} }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="User logged out successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string"),
+     *             @OA\Property(property="message", type="string")
+     *         )
+     *     )
+     * )
      */
     public function logout(Request $request)
     {
