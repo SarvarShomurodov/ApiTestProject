@@ -34,3 +34,6 @@ Installation Sanctum authentication
  link: https://www.postman.com/solar-eclipse-530889/workspace/animals/collection/21513257-428c8fca-fd4a-4f53-a1ae-f8e38718964b?action=share&creator=21513257
 
 
+- After installing the project you can start the server and use the swaager documentation with the link below    
+- route: http://http://127.0.0.1:8000/api/documentation
+
