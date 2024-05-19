@@ -35,5 +35,5 @@ Installation Sanctum authentication
 
 
 - After installing the project you can start the server and use the swaager documentation with the link below    
-- route: http://http://127.0.0.1:8000/api/documentation
+- route: http://127.0.0.1:8000/api/documentation
 
